@@ -1,18 +1,47 @@
-from google.colab import drive
+# Subir Google Drive
 
+from google.colab import drive
 drive.mount('/content/gdrive')
 
-ROOT_DIR = '/content/gdrive/My Drive/ProyectoParasitos/BlastocystisSp'
+# Definir directorio del proyecto
 
+ROOT_DIR = '/content/gdrive/https://drive.google.com/drive/folders/1K-H-nrQtVFOiAItoAxrwc4dylzmc3S73?usp=drive_link'
+# Instalar Ultralytics (si no está instalado)
+
+import locale
+def getpreferredencoding(do_setlocale = True):
+    return "UTF-8"
+locale.getpreferredencoding = getpreferredencoding
 !pip install ultralytics
 
-import os
+# Importar librerías necesarias
 
+import os
 from ultralytics import YOLO
 
+# Cargar modelo YOLOv8 nano preentrenado
 
-# Load a model
-model = YOLO("yolov8n.pt")  # build a new model from scratch
+model = YOLO("yolov8n.pt")
 
-# Use the model
-results = model.train(data=os.path.join(ROOT_DIR, "datasetBlastocystis.yaml"), epochs=50, pretrained=True, iou=0.5, visualize=True, patience=0)  # train the model
+# Entrenar el modelo con tu dataset
+
+results = model.train(
+    data=os.path.join(ROOT_DIR, "/content/gdrive/MyDrive/ProyectoParasitos/BlastocystisSp/datasetBlastocystis.yaml"),  # Ruta al archivo de configuración del dataset
+    epochs=50,             # Número de épocas
+    imgsz=640,             # Tamaño de imagen
+    batch=16,              # Tamaño de lote (ajústalo según la RAM disponible)
+    patience=0,            # No espera a ver mejoras antes de detenerse
+    device=0               # 0 para GPU, 'cpu' si no hay GPU disponible
+)
+
+# Mostrar gráfico de resultados del entrenamiento (accuracy, pérdida, etc.)
+
+from IPython.display import Image, display
+Image(filename=os.path.join(model.trainer.save_dir, "results.png"))
+
+# Usa el modelo entrenado
+
+results = model.predict(source='/content/gdrive/MyDrive/ProyectoParasitos/BlastocystisSp/val/images', conf=0.25)
+
+for result in results:
+    result.show()
