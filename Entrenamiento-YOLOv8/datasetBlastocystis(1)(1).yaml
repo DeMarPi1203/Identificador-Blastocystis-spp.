@@ -1,0 +1,7 @@
+path: '/content/gdrive/My Drive/ProyectoParasitos/BlastocystisSp'
+train: train/images
+val: val/images
+
+names:
+  0: Fondo
+  1: Blastocystis Sp

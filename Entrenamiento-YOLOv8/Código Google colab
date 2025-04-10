@@ -1,0 +1,18 @@
+from google.colab import drive
+
+drive.mount('/content/gdrive')
+
+ROOT_DIR = '/content/gdrive/My Drive/ProyectoParasitos/BlastocystisSp'
+
+!pip install ultralytics
+
+import os
+
+from ultralytics import YOLO
+
+
+# Load a model
+model = YOLO("yolov8n.pt")  # build a new model from scratch
+
+# Use the model
+results = model.train(data=os.path.join(ROOT_DIR, "datasetBlastocystis.yaml"), epochs=50, pretrained=True, iou=0.5, visualize=True, patience=0)  # train the model
