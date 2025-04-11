@@ -16,7 +16,7 @@ Para ejecutar los códigos incluidos en este repositorio, es necesario contar co
 
 Python 3.8+
 
-Bibliotecas necesarias (YOLOv8, OpenCV, PyQt5, entre otras)
+Bibliotecas necesarias (Ultralytics)
 
 Raspberry Pi 4 (opcional, para pruebas en hardware)
 
@@ -26,14 +26,6 @@ Clonar este repositorio:
 
 git clone https://github.com/DeMarPi1203/Identificador-de-Blastocystis-spp..git
 cd Identificador-de-Blastocysitis-spp.
-
-Instalar las dependencias:
-
-pip install -r requirements.txt
-
-Ejecutar el código principal:
-
-python main.py
 
 Uso
 
