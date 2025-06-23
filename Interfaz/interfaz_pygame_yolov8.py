@@ -62,21 +62,12 @@ if not cap.isOpened():
 desired_width = 680
 desired_height = 430
 
-##opencv dnn para subir la red
-##net = cv2.dnn.readNet('yolov4-tiny.weights', 'yolov4-tiny.cfg')
-##model = cv2.dnn_DetectionModel(net)
-##model.setInputParams(size=(320,320), scale=1/255)
 model = YOLO("BlastocystisSp.pt")
 #cargar las clases de la db  de coco de yolo
 classesFile = "classes.txt";
 with open(classesFile, 'rt') as f:
     classes = f.read().rstrip('\n').split('\n')
     COLORS = np.random.uniform(0, 255, size=(len(classes),3))
-##classes = []
-##with open('classes.txt', 'r') as file_object:
-##    for class_name in file_object.readlines():
-##        class_name = class_name.strip()
-##        classes.append(class_name)
 
 class Button():
     def __init__(self, x, y, image, scale):
@@ -126,7 +117,6 @@ def adjust_brightness_contrast_hue(image, brightness, contrast, hue):
     hsv[..., 2] = np.clip(cv2.addWeighted(hsv[..., 2], 1 + contrast / 127.0, hsv[..., 2], 0, brightness - contrast), 0, 255)
 
     return cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
-    #return np.clip(cv2.addWeighted(image, 1 + contrast / 127.0, image, 0, brightness - contrast), 0, 255)
 
 #Valores automaticos para brillo contraste y matiz
 def set_auto_values():
@@ -180,8 +170,6 @@ while run:
     if b_captura.draw(ventana):
         if is_camera_running == True:
             print("Captura de imagen")
-            #frame_np = np.array(frame_rgb)
-##            frame_np = np.rot90(frame_rgb)
             frame_np = pygame.surfarray.array3d(frame_rgb)
                 
                 # Generar nombre de la imagen
@@ -247,32 +235,6 @@ while run:
             frame_rgb = np.rot90(frame_rgb)
             frame_rgb = pygame.surfarray.make_surface(frame_rgb)
             frame_rgb = pygame.transform.flip(frame_rgb, True, False)  # Voltear imagen horizontalmente
-           # window.blit(img, (0, 0))
-
-           # pygame.display.flip()
-           # pygame.time.delay(10)
-
-            # Añadir dimensión de lote
-           # frame_rgb = np.expand_dims(frame_rgb, axis=0)
-            #frame_rgb = pygame.surfarray.make_surface(cv2.cvtColor(adjusted_frame, cv2.COLOR_BGR2RGB))
-
-             
-##                (class_ids, scores, bboxes) = model.predict(frame_rgb)
-##
-##                #dibujar el cuadro
-##                for class_id, score, bbox in zip(class_ids, scores, bboxes):
-##                        (x, y, w, h)= bbox
-##                        class_name = classes[class_id]
-##
-##                        if class_name == 'person':
-##                            cv2.putText(frame_rgb, str(class_name), (x, y-10), cv2.FONT_HERSHEY_PLAIN, 2, (200, 0, 50), 2)
-##                            cv2.rectangle(frame_rgb, (x,y), (x+w, y+h), (200, 0, 50), 3)
-##                            #print("se esta analizando la clase")
-                
-##                break
-            
-            # Crear la imagen de Pygame a partir del cuadro RGB
-            #img = pygame.image.frombuffer(frame_rgb.flatten(), (desired_width, desired_height), 'RGB')
             
         # Redimensionar la imagen
             img= pygame.transform.scale(frame_rgb, (desired_width, desired_height))
